@@ -14,4 +14,6 @@ export interface Paginated<T> {
 export interface PaginationParams {
   page?: number;
   pageSize?: number;
+  /** Extra query params (filters, search, etc.) added by later phases. */
+  [key: string]: string | number | boolean | undefined;
 }

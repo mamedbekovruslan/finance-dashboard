@@ -30,7 +30,9 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
         <input
           ref={ref}
           id={inputId}
-          className={[styles.input, errorMessage ? styles.inputError : '', className].filter(Boolean).join(' ')}
+          className={[styles.input, errorMessage ? styles.inputError : '', className]
+            .filter(Boolean)
+            .join(' ')}
           aria-invalid={errorMessage ? true : undefined}
           aria-describedby={describedBy}
           {...rest}
