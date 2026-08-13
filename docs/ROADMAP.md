@@ -76,3 +76,8 @@ explicitly with the project owner, not silent scope changes.
   set (`CLAUDE.md`, ADRs 0000–0005, this roadmap). All verification
   scripts (`typecheck`, `lint`, `test`, `build`) green. Repo restructured
   to a `main`/`dev` branch strategy — all development happens on `dev`.
+- **2026-08-13** — Deploy readiness: MSW now starts unconditionally (was
+  dev-only), since this project has no real backend in any phase —
+  fixed before it could ship as a broken production build. Added
+  `vercel.json` SPA rewrite so client-side routes resolve on direct
+  navigation. Verified against a production build in headless Chromium.
