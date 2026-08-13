@@ -15,9 +15,11 @@ like a real API, not a static fixture.
 
 - **MSW (Mock Service Worker)** intercepts actual `fetch` calls at the
   network level — in the browser via a service worker
-  (`shared/api/mocks/browser.ts`, started conditionally in `main.tsx` when
-  `import.meta.env.DEV`), and in tests via `msw/node`
-  (`shared/api/mocks/server.ts`, wired into `src/test/setup.ts`). Handlers
+  (`shared/api/mocks/browser.ts`, started unconditionally in `main.tsx`,
+  in every environment including the deployed build — there is no real
+  backend in any phase of this project's roadmap, so the mock layer is the
+  permanent data source, not a dev-only stand-in), and in tests via
+  `msw/node` (`shared/api/mocks/server.ts`, wired into `src/test/setup.ts`). Handlers
   return paginated responses (`{ data, page, pageSize, total }`) with
   simulated latency (`shared/api/mocks/delay.ts`, zeroed under
   `MODE === 'test'` so the test suite stays fast).
@@ -40,7 +42,9 @@ paths are testable) without standing up a backend; swapping MSW for a real
 API later is a near-zero-diff change since `httpClient` and TanStack Query
 hooks don't know mocking exists.
 **Negative:** MSW adds setup overhead (service worker file, `msw init`,
-separate browser/node entry points) compared to importing JSON.
+separate browser/node entry points) compared to importing JSON, and since
+it ships in the production bundle (not just dev), it permanently adds to
+bundle size — an accepted cost given there is no real backend to swap in.
 **Neutral:** this couples "realistic API behavior" to MSW's request
 matching rather than to component logic, which is the intended trade-off.
 
